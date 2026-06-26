@@ -1,0 +1,124 @@
+/**
+ * ============================================================
+ * Inventra — Simplifying Business Operations
+ * Backend API — Express.js + TypeScript
+ * ============================================================
+ */
+
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+import { rateLimit } from 'express-rate-limit';
+
+import { env } from './utils/env';
+import { logger } from './utils/logger';
+import { errorHandler } from './middlewares/errorHandler';
+import { notFound } from './middlewares/notFound';
+
+// Routes
+import authRoutes from './routes/auth';
+import userRoutes from './routes/users';
+import vendorRoutes from './routes/vendors';
+import customerRoutes from './routes/customers';
+import materialRoutes from './routes/materials';
+import purchaseRoutes from './routes/purchases';
+import saleRoutes from './routes/sales';
+import expenseRoutes from './routes/expenses';
+import investorRoutes from './routes/investors';
+import intermediaryRoutes from './routes/intermediary';
+import gstRoutes from './routes/gst';
+import bankRoutes from './routes/bank';
+import reportRoutes from './routes/reports';
+import dashboardRoutes from './routes/dashboard';
+import auditRoutes from './routes/audit';
+import notificationRoutes from './routes/notifications';
+import adminRoutes from './routes/admin';
+
+const app = express();
+
+// ── Security Headers ──────────────────────────────────────────
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:', 'https:'],
+      scriptSrc: ["'self'"],
+    },
+  },
+}));
+
+// ── CORS ──────────────────────────────────────────────────────
+app.use(cors({
+  origin: env.FRONTEND_URL,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+}));
+
+// ── Global Rate Limiter ───────────────────────────────────────
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please try again later.' },
+}));
+
+// ── Middleware ────────────────────────────────────────────────
+app.use(compression());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
+app.use(morgan('combined', {
+  stream: { write: (msg) => logger.info(msg.trim()) },
+}));
+
+// ── Health Check ──────────────────────────────────────────────
+app.get('/health', (_req, res) => {
+  res.json({
+    status: 'ok',
+    service: 'Inventra API',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+  });
+});
+
+// ── API Routes ────────────────────────────────────────────────
+const API = '/api/v1';
+
+app.use(`${API}/auth`, authRoutes);
+app.use(`${API}/users`, userRoutes);
+app.use(`${API}/vendors`, vendorRoutes);
+app.use(`${API}/customers`, customerRoutes);
+app.use(`${API}/materials`, materialRoutes);
+app.use(`${API}/purchases`, purchaseRoutes);
+app.use(`${API}/sales`, saleRoutes);
+app.use(`${API}/expenses`, expenseRoutes);
+app.use(`${API}/investors`, investorRoutes);
+app.use(`${API}/intermediary`, intermediaryRoutes);
+app.use(`${API}/gst`, gstRoutes);
+app.use(`${API}/bank`, bankRoutes);
+app.use(`${API}/reports`, reportRoutes);
+app.use(`${API}/dashboard`, dashboardRoutes);
+app.use(`${API}/audit`, auditRoutes);
+app.use(`${API}/notifications`, notificationRoutes);
+app.use(`${API}/admin`, adminRoutes);
+
+// ── Error Handlers ────────────────────────────────────────────
+app.use(notFound);
+app.use(errorHandler);
+
+// ── Start Server ──────────────────────────────────────────────
+const PORT = env.PORT || 5000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  logger.info(`🚀 Inventra API running on port ${PORT}`);
+  logger.info(`📍 Environment: ${env.NODE_ENV}`);
+});
+
+export default app;

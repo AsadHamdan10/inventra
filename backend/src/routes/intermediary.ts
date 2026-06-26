@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { requireTenant } from '../middlewares/auth';
+import prisma from '../utils/prisma';
+import { z } from 'zod';
+const router = Router();
+router.use(requireTenant);
+const schema = z.object({ sellerCompany:z.string().min(1), buyerCompany:z.string().min(1), materialName:z.string().optional(), quantity:z.number().default(0), profitPerUnit:z.number().default(0), totalProfit:z.number().default(0), dealDate:z.string(), notes:z.string().optional() });
+router.get('/', async (req, res, next) => { try { res.json(await prisma.intermediary.findMany({ where:{userId:req.user!.userId}, orderBy:{dealDate:'desc'} })); } catch(e){next(e);} });
+router.post('/', async (req, res, next) => { try { const p=schema.safeParse(req.body); if(!p.success) return res.status(400).json({error:'Invalid'}); res.status(201).json(await prisma.intermediary.create({ data:{userId:req.user!.userId,...p.data,dealDate:new Date(p.data.dealDate)} })); } catch(e){next(e);} });
+router.put('/:id', async (req, res, next) => { try { const p=schema.safeParse(req.body); if(!p.success) return res.status(400).json({error:'Invalid'}); res.json(await prisma.intermediary.updateMany({ where:{id:parseInt(req.params.id),userId:req.user!.userId}, data:{...p.data,dealDate:new Date(p.data.dealDate)} })); } catch(e){next(e);} });
+router.delete('/:id', async (req, res, next) => { try { await prisma.intermediary.deleteMany({ where:{id:parseInt(req.params.id),userId:req.user!.userId} }); res.json({message:'Deleted.'}); } catch(e){next(e);} });
+export default router;

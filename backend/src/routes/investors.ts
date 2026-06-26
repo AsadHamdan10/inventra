@@ -1,0 +1,14 @@
+import { Router } from 'express';
+import { requireTenant } from '../middlewares/auth';
+import prisma from '../utils/prisma';
+import { encryptIfPresent, safeDecrypt } from '../utils/crypto';
+import { z } from 'zod';
+const router = Router();
+router.use(requireTenant);
+const schema = z.object({ investorName:z.string().min(1), mobile:z.string().optional(), investedAmount:z.number().default(0), profitPct:z.number().default(0), joinedDate:z.string().optional().nullable(), status:z.enum(['Active','Inactive']).default('Active'), notes:z.string().optional() });
+const dec = (r:any) => ({...r, mobile:safeDecrypt(r.mobile||''), investedAmount:Number(r.investedAmount), profitPct:Number(r.profitPct)});
+router.get('/', async (req, res, next) => { try { res.json((await prisma.investor.findMany({ where:{userId:req.user!.userId}, orderBy:{investorName:'asc'} })).map(dec)); } catch(e){next(e);} });
+router.post('/', async (req, res, next) => { try { const p=schema.safeParse(req.body); if(!p.success) return res.status(400).json({error:'Invalid'}); const {mobile,joinedDate,...d}=p.data; res.status(201).json(dec(await prisma.investor.create({ data:{userId:req.user!.userId,...d,mobile:encryptIfPresent(mobile),joinedDate:joinedDate?new Date(joinedDate):null} }))); } catch(e){next(e);} });
+router.put('/:id', async (req, res, next) => { try { const p=schema.safeParse(req.body); if(!p.success) return res.status(400).json({error:'Invalid'}); const {mobile,joinedDate,...d}=p.data; const userId=req.user!.userId; const id=parseInt(req.params.id); const result=await prisma.investor.updateMany({ where:{id,userId}, data:{...d,mobile:encryptIfPresent(mobile),joinedDate:joinedDate?new Date(joinedDate):null} }); if(result.count===0) return res.status(404).json({error:'Investor not found.'}); const row=await prisma.investor.findUnique({ where:{id} }); res.json(dec(row)); } catch(e){next(e);} });
+router.delete('/:id', async (req, res, next) => { try { await prisma.investor.deleteMany({ where:{id:parseInt(req.params.id),userId:req.user!.userId} }); res.json({message:'Deleted.'}); } catch(e){next(e);} });
+export default router;

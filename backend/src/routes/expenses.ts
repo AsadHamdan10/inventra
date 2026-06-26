@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { requireTenant } from '../middlewares/auth';
+import { listExpenses, createExpense, updateExpense, deleteExpense } from '../controllers/expenseController';
+const router = Router();
+router.use(requireTenant);
+router.get('/', listExpenses);
+router.post('/', createExpense);
+router.put('/:id', updateExpense);
+router.delete('/:id', deleteExpense);
+export default router;

@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import { requireSuperAdmin } from '../middlewares/auth';
+import { listUsers, approveUser, rejectUser, suspendUser, resetUserPassword, getAdminDashboard, getAuditLogs } from '../controllers/adminController';
+const router = Router();
+router.use(requireSuperAdmin);
+router.get('/dashboard', getAdminDashboard);
+router.get('/users', listUsers);
+router.post('/users/:id/approve', approveUser);
+router.post('/users/:id/reject', rejectUser);
+router.post('/users/:id/suspend', suspendUser);
+router.post('/users/:id/reset-password', resetUserPassword);
+router.get('/audit-logs', getAuditLogs);
+export default router;

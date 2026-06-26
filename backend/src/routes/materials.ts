@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { requireTenant } from '../middlewares/auth';
+import { listMaterials, createMaterial, updateMaterial, deleteMaterial } from '../controllers/materialController';
+const router = Router();
+router.use(requireTenant);
+router.get('/', listMaterials);
+router.post('/', createMaterial);
+router.put('/:id', updateMaterial);
+router.delete('/:id', deleteMaterial);
+export default router;
