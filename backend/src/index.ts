@@ -114,7 +114,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 // ── Start Server ──────────────────────────────────────────────
-const PORT = env.PORT || 5000;
+const PORT = Number(env.PORT) || 5000;
 
 app.listen(PORT, "0.0.0.0", () => {
   logger.info(`🚀 Inventra API running on port ${PORT}`);
