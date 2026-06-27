@@ -10,6 +10,7 @@ import { useAuthStore } from '../../store/authStore';
 import Footer from '../ui/Footer';
 import { authApi } from '../../services/apiServices';
 import toast from 'react-hot-toast';
+import InstallPrompt from '../pwa/InstallPrompt';
 
 interface NavItem {
   to: string;
@@ -224,12 +225,15 @@ export default function AppLayout({ isAdmin = false }: AppLayoutProps) {
             </div>
           </div>
           <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-2 text-xs text-gray-500 hover:text-red-400 transition-colors py-1"
-          >
-            <LogOut size={13} />
-            Sign out
-          </button>
+  onClick={handleLogout}
+  className="w-full flex items-center gap-2 text-xs text-gray-400 hover:text-red-400
+             transition-colors py-1.5 px-1 rounded-md hover:bg-gray-800"
+>
+  <LogOut size={13} className="flex-shrink-0" />
+  Sign Out
+</button>
+
+<InstallPrompt />
           <div className="pt-1 border-t border-gray-800/60">
             <p className="text-[10px] text-gray-600 leading-relaxed">
               <span className="text-gray-500 font-semibold">Inventra ERP</span> v1.0

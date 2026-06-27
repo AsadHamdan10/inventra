@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventra ERP</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Inter,Segoe UI,sans-serif;
+    }
+
+    body{
+      background:#f8fafc;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .card{
+      background:white;
+      width:360px;
+      padding:40px;
+      border-radius:18px;
+      text-align:center;
+      box-shadow:0 10px 40px rgba(0,0,0,.12);
+    }
+
+    img{
+      width:85px;
+      margin-bottom:20px;
+    }
+
+    h1{
+      color:#1e3a8a;
+      margin-bottom:10px;
+      font-size:28px;
+    }
+
+    p{
+      color:#6b7280;
+      margin-bottom:30px;
+      line-height:1.6;
+    }
+
+    button{
+      background:#4f46e5;
+      color:white;
+      border:none;
+      border-radius:10px;
+      padding:12px 30px;
+      cursor:pointer;
+      font-size:15px;
+    }
+
+    button:hover{
+      background:#4338ca;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+
+<img src="/assets/logo/icon-192.png">
+
+<h1>Inventra ERP</h1>
+
+<p>
+You are currently offline.
+<br><br>
+Reconnect to continue using Inventra.
+</p>
+
+<button onclick="location.reload()">
+Retry
+</button>
+
+</div>
+
+</body>
+</html>
