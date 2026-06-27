@@ -34,14 +34,20 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>
 );
 
-registerSW({
+const updateSW = registerSW({
   immediate: true,
 
   onNeedRefresh() {
-    console.log('New version available.')
+    const ok = window.confirm(
+      "A new version of Inventra is available.\n\nUpdate now?"
+    )
+
+    if (ok) {
+      updateSW(true)
+    }
   },
 
   onOfflineReady() {
-    console.log('Inventra is ready for offline use.')
+    console.log("Inventra is ready for offline use.")
   }
 })
