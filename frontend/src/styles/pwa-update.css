@@ -1,0 +1,47 @@
+/* ─────────────────────────────────────────────────────────────
+   PWA Update Dialog animations
+   Plain CSS (no tailwindcss-animate dependency) so it works with
+   the existing Tailwind config as-is.
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes inventra-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes inventra-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes inventra-progress {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(50%); }
+  100% { transform: translateX(250%); }
+}
+
+.inventra-update-backdrop {
+  animation: inventra-fade-in 0.2s ease-out;
+}
+
+.inventra-update-card {
+  animation: inventra-card-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inventra-update-progress-bar {
+  animation: inventra-progress 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inventra-update-backdrop,
+  .inventra-update-card,
+  .inventra-update-progress-bar {
+    animation: none;
+  }
+}

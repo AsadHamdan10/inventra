@@ -1,10 +1,10 @@
 import { StrictMode } from 'react';
-import { registerSW } from 'virtual:pwa-register'
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import App from './App';
 import './index.css';
+import './styles/pwa-update.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,20 +34,10 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>
 );
 
-const updateSW = registerSW({
-  immediate: true,
-
-  onNeedRefresh() {
-    const ok = window.confirm(
-      "A new version of Inventra is available.\n\nUpdate now?"
-    )
-
-    if (ok) {
-      updateSW(true)
-    }
-  },
-
-  onOfflineReady() {
-    console.log("Inventra is ready for offline use.")
-  }
-})
+/**
+ * Service worker registration has moved to <UpdateProvider> (see
+ * src/components/pwa/UpdateContext.tsx), which is mounted inside
+ * App.tsx. This keeps all PWA update logic inside the dedicated pwa
+ * module instead of main.tsx — see src/services/pwaService.ts,
+ * src/hooks/usePWAUpdate.ts, and src/components/pwa/UpdateDialog.tsx.
+ */
