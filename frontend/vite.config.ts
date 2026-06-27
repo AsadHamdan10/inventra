@@ -141,8 +141,8 @@ shortcuts: [
   navigateFallback: "/offline.html",
 
   globPatterns: [
-    "**/*.{js,css,html,png,svg,jpg,jpeg,webp,woff2}"
-  ],
+"**/*.{js,css,html,svg,woff2}"
+],
 
   runtimeCaching: [
     {
