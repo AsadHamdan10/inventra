@@ -53,8 +53,24 @@ app.use(helmet({
 }));
 
 // ── CORS ──────────────────────────────────────────────────────
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:4173',
+  'https://inventraerp.vercel.app',
+];
+
 app.use(cors({
-  origin: env.FRONTEND_URL,
+  origin(origin, callback) {
+    // Allow requests without an Origin (Postman, curl, server-to-server)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
+
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
