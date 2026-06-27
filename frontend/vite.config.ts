@@ -138,7 +138,6 @@ shortcuts: [
 
   skipWaiting: true,
 
-  navigateFallback: "/offline.html",
 
   globPatterns: [
 "**/*.{js,css,html,svg,woff2}"
