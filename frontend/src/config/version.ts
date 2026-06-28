@@ -11,7 +11,7 @@
  * surfaced directly in the update dialog.
  */
 
-export const APP_VERSION = '1.0.5';
+export const APP_VERSION = '1.0.6';
 
 export const RELEASE_NOTES: string[] = [
   'Performance improvements',
