@@ -25,6 +25,10 @@ import AuthLayout from './components/layout/AuthLayout';
 import { UpdateProvider } from './components/pwa/UpdateContext';
 import UpdateDialog from './components/pwa/UpdateDialog';
 
+// PWA install manager (isolated module — see src/components/pwa/)
+import { InstallProvider } from './components/pwa/InstallContext';
+import InstallBanner from './components/pwa/InstallBanner';
+
 // Auth pages
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -104,70 +108,74 @@ export default function App() {
 
   return (
     <UpdateProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          {/* Auth routes */}
-          <Route element={<AuthLayout />}>
-            <Route path="/login"           element={<LoginPage />} />
-            <Route path="/register"        element={<RegisterPage />} />
-            <Route path="/change-password" element={<ChangePasswordPage />} />
-          </Route>
+      <InstallProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            {/* Auth routes */}
+            <Route element={<AuthLayout />}>
+              <Route path="/login"           element={<LoginPage />} />
+              <Route path="/register"        element={<RegisterPage />} />
+              <Route path="/change-password" element={<ChangePasswordPage />} />
+            </Route>
 
-          {/* Super Admin routes */}
-          <Route path="/admin" element={<AdminRoute><AppLayout isAdmin /></AdminRoute>}>
-            <Route index element={<AdminDashboardPage />} />
-            <Route path="users" element={<AdminUsersPage />} />
-          </Route>
+            {/* Super Admin routes */}
+            <Route path="/admin" element={<AdminRoute><AppLayout isAdmin /></AdminRoute>}>
+              <Route index element={<AdminDashboardPage />} />
+              <Route path="users" element={<AdminUsersPage />} />
+            </Route>
 
-          {/* Standalone Print Routes */}
-          <Route path="/purchase-register-print"  element={<TenantRoute><PurchaseRegisterPrint /></TenantRoute>} />
-          <Route path="/sales-register-print"     element={<TenantRoute><SalesRegisterPrint /></TenantRoute>} />
-          <Route path="/profit-register-print"    element={<TenantRoute><ProfitRegisterPrint /></TenantRoute>} />
-          <Route path="/party-ledger-print"       element={<TenantRoute><PartyLedgerPrint /></TenantRoute>} />
-          <Route path="/ledger-print"             element={<TenantRoute><LedgerPrint /></TenantRoute>} />
-          <Route path="/gst-summary-print"        element={<TenantRoute><GstSummaryPrint /></TenantRoute>} />
-          <Route path="/gst-payment-print"        element={<TenantRoute><GstPaymentPrint /></TenantRoute>} />
-          <Route path="/expense-print"            element={<TenantRoute><ExpensePrint /></TenantRoute>} />
-          <Route path="/intermediary-print"       element={<TenantRoute><IntermediaryPrint /></TenantRoute>} />
-          <Route path="/bank-statement-print"     element={<TenantRoute><BankStatementPrint /></TenantRoute>} />
-          <Route path="/receivable-print"         element={<TenantRoute><ReceivablePrint /></TenantRoute>} />
-          <Route path="/payable-print"            element={<TenantRoute><PayablePrint /></TenantRoute>} />
+            {/* Standalone Print Routes */}
+            <Route path="/purchase-register-print"  element={<TenantRoute><PurchaseRegisterPrint /></TenantRoute>} />
+            <Route path="/sales-register-print"     element={<TenantRoute><SalesRegisterPrint /></TenantRoute>} />
+            <Route path="/profit-register-print"    element={<TenantRoute><ProfitRegisterPrint /></TenantRoute>} />
+            <Route path="/party-ledger-print"       element={<TenantRoute><PartyLedgerPrint /></TenantRoute>} />
+            <Route path="/ledger-print"             element={<TenantRoute><LedgerPrint /></TenantRoute>} />
+            <Route path="/gst-summary-print"        element={<TenantRoute><GstSummaryPrint /></TenantRoute>} />
+            <Route path="/gst-payment-print"        element={<TenantRoute><GstPaymentPrint /></TenantRoute>} />
+            <Route path="/expense-print"            element={<TenantRoute><ExpensePrint /></TenantRoute>} />
+            <Route path="/intermediary-print"       element={<TenantRoute><IntermediaryPrint /></TenantRoute>} />
+            <Route path="/bank-statement-print"     element={<TenantRoute><BankStatementPrint /></TenantRoute>} />
+            <Route path="/receivable-print"         element={<TenantRoute><ReceivablePrint /></TenantRoute>} />
+            <Route path="/payable-print"            element={<TenantRoute><PayablePrint /></TenantRoute>} />
 
-          {/* Tenant routes */}
-          <Route path="/" element={<TenantRoute><AppLayout /></TenantRoute>}>
-            <Route index element={<DashboardPage />} />
-            <Route path="vendors"               element={<VendorsPage />} />
-            <Route path="customers"             element={<CustomersPage />} />
-            <Route path="materials"             element={<MaterialsPage />} />
-            <Route path="purchases"             element={<PurchasesPage />} />
-            <Route path="sales"                 element={<SalesPage />} />
-            <Route path="expenses"              element={<ExpensesPage />} />
-            <Route path="inventory"             element={<InventoryPage />} />
-            <Route path="receivables"           element={<ReceivablesPage />} />
-            <Route path="payables"              element={<PayablesPage />} />
-            <Route path="investors"             element={<InvestorsPage />} />
-            <Route path="intermediary"          element={<IntermediaryPage />} />
-            <Route path="bank-statements"       element={<BankStatementsPage />} />
-            <Route path="gst"                   element={<GstPage />} />
-            <Route path="gst-payments"          element={<GstPaymentsPage />} />
-            <Route path="company-profile"       element={<CompanyProfilePage />} />
-            <Route path="invoice-settings"      element={<InvoiceSettingsPage />} />
-            <Route path="audit-logs"            element={<AuditLogsPage />} />
-            <Route path="calculate-sale-price"  element={<CalculateSalePricePage />} />
+            {/* Tenant routes */}
+            <Route path="/" element={<TenantRoute><AppLayout /></TenantRoute>}>
+              <Route index element={<DashboardPage />} />
+              <Route path="vendors"               element={<VendorsPage />} />
+              <Route path="customers"             element={<CustomersPage />} />
+              <Route path="materials"             element={<MaterialsPage />} />
+              <Route path="purchases"             element={<PurchasesPage />} />
+              <Route path="sales"                 element={<SalesPage />} />
+              <Route path="expenses"              element={<ExpensesPage />} />
+              <Route path="inventory"             element={<InventoryPage />} />
+              <Route path="receivables"           element={<ReceivablesPage />} />
+              <Route path="payables"              element={<PayablesPage />} />
+              <Route path="investors"             element={<InvestorsPage />} />
+              <Route path="intermediary"          element={<IntermediaryPage />} />
+              <Route path="bank-statements"       element={<BankStatementsPage />} />
+              <Route path="gst"                   element={<GstPage />} />
+              <Route path="gst-payments"          element={<GstPaymentsPage />} />
+              <Route path="company-profile"       element={<CompanyProfilePage />} />
+              <Route path="invoice-settings"      element={<InvoiceSettingsPage />} />
+              <Route path="audit-logs"            element={<AuditLogsPage />} />
+              <Route path="calculate-sale-price"  element={<CalculateSalePricePage />} />
 
-            {/* Reports */}
-            <Route path="reports/profit"        element={<ProfitPage />} />
-            <Route path="reports/day-book"      element={<LedgerPage />} />
-            <Route path="reports/party-ledger"  element={<PartyLedgerPage />} />
+              {/* Reports */}
+              <Route path="reports/profit"        element={<ProfitPage />} />
+              <Route path="reports/day-book"      element={<LedgerPage />} />
+              <Route path="reports/party-ledger"  element={<PartyLedgerPage />} />
 
-            {/* Legacy redirect */}
-            <Route path="reports/ledger" element={<Navigate to="/reports/day-book" replace />} />
-          </Route>
+              {/* Legacy redirect */}
+              <Route path="reports/ledger" element={<Navigate to="/reports/day-book" replace />} />
+            </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+
+        <InstallBanner />
+      </InstallProvider>
 
       <UpdateDialog />
     </UpdateProvider>

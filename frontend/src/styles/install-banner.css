@@ -1,0 +1,60 @@
+/* ─────────────────────────────────────────────────────────────
+   Install Banner animations
+   Plain CSS (no tailwindcss-animate dependency), consistent with
+   src/styles/pwa-update.css.
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes inventra-install-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes inventra-install-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.inventra-install-slide-up {
+  animation: inventra-install-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inventra-install-fade-in {
+  animation: inventra-install-fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inventra-install-slide-up,
+  .inventra-install-fade-in {
+    animation: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Space reservation so the fixed mobile bar never overlaps page
+   content. InstallBanner.tsx sets --inventra-install-banner-height
+   on :root only while the bar is visible and only below the `lg`
+   breakpoint matters (the desktop card floats, it doesn't need
+   layout space) — these rules just consume that variable.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  #page-scroll-container {
+    padding-bottom: calc(0.5rem + var(--inventra-install-banner-height, 0px));
+  }
+
+  .inventra-auth-shell {
+    padding-bottom: var(--inventra-install-banner-height, 0px);
+  }
+}
+

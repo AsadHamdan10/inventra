@@ -10,7 +10,6 @@ import { useAuthStore } from '../../store/authStore';
 import Footer from '../ui/Footer';
 import { authApi } from '../../services/apiServices';
 import toast from 'react-hot-toast';
-import InstallPrompt from '../pwa/InstallPrompt';
 
 interface NavItem {
   to: string;
@@ -233,7 +232,6 @@ export default function AppLayout({ isAdmin = false }: AppLayoutProps) {
   Sign Out
 </button>
 
-<InstallPrompt />
           <div className="pt-1 border-t border-gray-800/60">
             <p className="text-[10px] text-gray-600 leading-relaxed">
               <span className="text-gray-500 font-semibold">Inventra ERP</span> v1.0

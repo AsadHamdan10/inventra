@@ -11,7 +11,7 @@ export default function AuthLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-900 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-900 flex flex-col items-center justify-center p-4 inventra-auth-shell">
       <div className="w-full max-w-md">
 
         {/* Brand header */}

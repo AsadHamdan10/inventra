@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import App from './App';
 import './index.css';
 import './styles/pwa-update.css';
+import './styles/install-banner.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
