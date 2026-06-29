@@ -41,6 +41,7 @@ import CustomersPage from './pages/customers/CustomersPage';
 import MaterialsPage from './pages/materials/MaterialsPage';
 import PurchasesPage from './pages/purchases/PurchasesPage';
 import SalesPage from './pages/sales/SalesPage';
+import QuotationPage from './pages/quotation/QuotationPage';
 import ExpensesPage from './pages/expenses/ExpensesPage';
 import InventoryPage from './pages/inventory/InventoryPage';
 import ReceivablesPage from './pages/receivables/ReceivablesPage';
@@ -147,6 +148,7 @@ export default function App() {
               <Route path="materials"             element={<MaterialsPage />} />
               <Route path="purchases"             element={<PurchasesPage />} />
               <Route path="sales"                 element={<SalesPage />} />
+              <Route path="quotation"             element={<QuotationPage />} />
               <Route path="expenses"              element={<ExpensesPage />} />
               <Route path="inventory"             element={<InventoryPage />} />
               <Route path="receivables"           element={<ReceivablesPage />} />

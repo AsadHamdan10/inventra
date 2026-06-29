@@ -4,7 +4,7 @@ import {
   LayoutDashboard, ShoppingCart, FileText, Package, Users, Building2,
   TrendingUp, TrendingDown, Calculator, Wallet, UserCheck, Repeat2,
   Landmark, BookOpen, ClipboardList, Settings, LogOut, Bell,
-  ChevronDown, Menu, X, Sun, Moon, Shield, BookMarked, Palette, Percent,
+  ChevronDown, Menu, X, Sun, Moon, Shield, BookMarked, Palette, Percent, Scroll,
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import Footer from '../ui/Footer';
@@ -40,6 +40,7 @@ const tenantNav: NavSection[] = [
     items: [
       { to: '/purchases', icon: ShoppingCart, label: 'Purchases' },
       { to: '/sales',     icon: FileText,     label: 'Sales'     },
+      { to: '/quotation', icon: Scroll,       label: 'Quotation' },
     ],
   },
   {
